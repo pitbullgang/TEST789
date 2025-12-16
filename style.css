@@ -47,7 +47,7 @@ body {
   z-index: 10;
 }
 
-/* ปรับชื่อ PHAWHA ให้เด่นสุดๆ */
+/* --- ส่วนที่แก้ไข: เพิ่ม Animation ให้ชื่อ PHAWHA --- */
 .title h2 {
   font-size: 5.5rem;
   font-weight: 700;
@@ -58,6 +58,9 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
+  
+  /* เรียกใช้ Animation */
+  animation: floatTitle 4s ease-in-out infinite;
 }
 
 .title p {
@@ -68,7 +71,6 @@ body {
   text-transform: uppercase;
 }
 
-/* ปุ่มแบบเท่ๆ ไม่มีกรอบทึบ */
 #memberBtn {
   background: transparent;
   color: #fff;
@@ -85,7 +87,7 @@ body {
 
 #memberBtn:hover {
   border-color: #fff;
-  letter-spacing: 6px; /* ขยายตัวอักษรเมื่อ Hover */
+  letter-spacing: 6px;
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
 }
@@ -98,4 +100,17 @@ footer {
   font-size: 10px;
   opacity: 0.3;
   letter-spacing: 4px;
+}
+
+/* --- เพิ่ม Keyframes สำหรับการขยับขึ้นลง --- */
+@keyframes floatTitle {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px); /* ขยับขึ้น 15px */
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
