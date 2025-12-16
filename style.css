@@ -1,102 +1,139 @@
 :root {
   --gradient-start: #000000;
   --gradient-end: #1a1a1a;
-  --circle-color: rgba(255, 255, 255, 0.1);
-  --button-gradient-start: #222222;
-  --button-gradient-end: #444444;
-  --button-text-color: #ffffff;
-  --font: 'Kanit', sans-serif;
   --text-color: #ffffff;
-  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(0, 0, 0, 0.6);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --accent-color: #ffffff;
+  --font: 'Kanit', sans-serif;
 }
 
 .light-theme {
   --gradient-start: #f0f0f0;
   --gradient-end: #d9d9d9;
-  --circle-color: rgba(0, 0, 0, 0.05);
-  --button-gradient-start: #ffffff;
-  --button-gradient-end: #e0e0e0;
-  --button-text-color: #000000;
-  --text-color: #000000;
-  --glass-bg: rgba(0, 0, 0, 0.05);
+  --text-color: #333333;
+  --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(0, 0, 0, 0.1);
+  --accent-color: #000000;
 }
 
-/* Reset & Base */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html, body {
-  height: 100%;
-  width: 100%;
+body {
   font-family: var(--font);
   color: var(--text-color);
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* ป้องกันการเลื่อนถ้าไม่จำเป็น */
+  overflow: hidden;
+  background: var(--gradient-start);
 }
 
-/* Main Wrapper - ตัวคลุมทั้งหมดให้ทุกอย่างอยู่กลางจอ */
-.main-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px; /* ระยะห่างระหว่างรูปกับเมนู */
-  z-index: 10;
-  width: 90%;
-  max-width: 500px;
+/* 🎥 แก้ไขวิดีโอพื้นหลังให้เต็มจอ */
+#bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -2; /* อยู่หลังสุด */
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.6); /* ปรับให้วิดีโอมืดลงนิดหน่อยเพื่อให้ข้อความเด่น */
 }
 
-/* Image Styling - แก้ไขให้รูปดูดีขึ้น */
-.hero-image {
+/* ✨ Particle Canvas */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  border: 2px solid var(--glass-border);
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* Center Container - ปรับให้เป็น Card สวยๆ */
+/* 📦 จัดระเบียบ Container กลางจอ */
 .center-container {
   background: var(--glass-bg);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  padding: 30px;
-  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 24px;
   border: 1px solid var(--glass-border);
   text-align: center;
-  width: 100%;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  z-index: 10;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-out;
 }
 
-/* Theme Toggle - อยู่มุมขวาบนเหมือนเดิม */
+.title h2 {
+  font-size: 2.5rem;
+  letter-spacing: 5px;
+  margin-bottom: 5px;
+}
+
+.title p {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+/* 🔘 ปุ่ม Member List */
+#memberBtn {
+  background: var(--accent-color);
+  color: var(--gradient-start);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+#memberBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  opacity: 0.9;
+}
+
+/* 🌙 Theme Toggle */
 .theme-toggle {
   position: fixed;
   top: 20px;
-  right: 25px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  right: 20px;
+  z-index: 100;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20;
-  transition: 0.3s;
+  background: var(--glass-bg);
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
 }
 
-/* Loading Screen */
-#loading-screen {
+/* 🦶 Footer */
+footer {
   position: fixed;
-  inset: 0;
-  background: #000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.5;
+  letter-spacing: 2px;
 }
-#loading-screen.hidden { opacity: 0; pointer-events: none; transition: 1s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
