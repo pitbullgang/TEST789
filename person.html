@@ -3,200 +3,239 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Person List | Dekbangtlez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;700&display=swap" rel="stylesheet" />
+  <title>PHAWHA | Person List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <style>
     :root {
-      --bg-start: #000000;
-      --bg-end: #1a1a1a;
-      --font: 'Kanit', sans-serif;
+      --bg-color: #000000;
+      --accent: #ff0000; /* สีแดงกลุ่มแสงอุษา */
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
       --text: #ffffff;
-      --link: #00aaff;
-      --accent: #ff4d4d;
+      --font: 'Kanit', sans-serif;
     }
 
-    * {margin:0;padding:0;box-sizing:border-box;}
-    html,body{
-      height:100%;
-      font-family:var(--font);
-      color:var(--text);
-      background:linear-gradient(135deg,var(--bg-start),var(--bg-end));
-      overflow-x:hidden;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg-color);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    body::before{
-      content:"";
-      position:fixed;
-      top:0;left:0;
-      width:100%;height:100%;
-      background:url("https://dekbangtlez.space/image/background.png") center/cover no-repeat;
-      opacity:0.12;
-      z-index:-1;
+    /* วิดีโอพื้นหลังขาวดำ */
+    #bg-video {
+      position: fixed;
+      top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      transform: translate(-50%, -50%);
+      z-index: -2;
+      filter: grayscale(100%) brightness(30%);
+      object-fit: cover;
     }
 
-    header{
-      text-align:center;
-      padding:40px 20px 10px;
-      font-size:2.3rem;
-      font-weight:700;
-      background:linear-gradient(90deg,#fff,#999,#fff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-size:300% 300%;
-      animation:moveGradient 4s ease infinite;
-    }
-    @keyframes moveGradient{
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
+    /* หัวกะโหลกตกเหมือนหน้าแรก */
+    #particleCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
 
-    .search-box{
-      width:90%;
-      max-width:500px;
-      margin:20px auto 10px;
-      display:flex;
-      align-items:center;
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:50px;
-      padding:10px 20px;
-      backdrop-filter:blur(8px);
-    }
-    .search-box i{
-      color:#aaa;
-      font-size:1.4rem;
-      margin-right:10px;
-    }
-    .search-box input{
-      background:transparent;
-      border:none;
-      outline:none;
-      color:#fff;
-      font-size:1rem;
-      width:100%;
-      font-family:var(--font);
+    header {
+      text-align: center;
+      padding: 60px 20px 20px;
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 15px;
+      text-transform: uppercase;
+      background: linear-gradient(to bottom, #fff, #666);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .container{
-      width:90%;
-      max-width:1100px;
-      margin:30px auto 100px;
+    .search-container {
+      width: 90%;
+      max-width: 500px;
+      margin: 0 auto 50px;
+      position: relative;
     }
 
-    section{
-      margin-top:40px;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:10px;
-      padding:25px;
-      backdrop-filter:blur(8px);
-      box-shadow:0 0 25px rgba(255,255,255,0.03);
+    .search-box {
+      width: 100%;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      padding: 12px 20px 12px 45px;
+      color: white;
+      font-family: var(--font);
+      outline: none;
+      transition: 0.3s;
     }
 
-    h2{
-      font-size:1.5rem;
-      margin-bottom:15px;
-      border-left:4px solid #fff;
-      padding-left:10px;
-    }
-    .leader h2{border-color:var(--accent);}
+    .search-box:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
 
-    .list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:20px;
-      justify-content:flex-start;
+    .search-container i {
+      position: absolute;
+      left: 15px; top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.5);
     }
 
-    .card{
-      flex:1 1 calc(20% - 20px);
-      min-width:160px;
-      max-width:200px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:10px;
-      text-align:center;
-      padding:15px 10px;
-      transition:all 0.3s ease;
-    }
-    .card:hover{
-      background:rgba(255,255,255,0.1);
-      transform:translateY(-5px);
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto 150px;
     }
 
-    .profile{
-      width:80px;
-      height:80px;
-      border-radius:50%;
-      object-fit:cover;
-      margin-bottom:10px;
-      box-shadow:0 0 10px rgba(255,255,255,0.1);
+    section { margin-bottom: 80px; }
+
+    h2 {
+      font-size: 0.8rem;
+      letter-spacing: 5px;
+      color: var(--accent);
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--accent);
+      display: inline-block;
+      padding-bottom: 5px;
+      text-transform: uppercase;
     }
 
-    .card h3{
-      font-size:1rem;
-      font-weight:600;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      color:#fff;
-    }
-    .card h3 i{
-      color:var(--accent);
-      font-size:1.2rem;
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
     }
 
-    .card a{
-      display:inline-block;
-      margin-top:8px;
-      font-size:0.9rem;
-      color:var(--link);
-      text-decoration:none;
-      transition:color 0.2s ease;
-    }
-    .card a:hover{color:#55cfff;}
-
-    footer{
-      position:fixed;
-      bottom:0;
-      left:0;
-      width:100%;
-      text-align:center;
-      color:rgba(255,255,255,0.5);
-      padding:15px;
-      font-size:0.9rem;
-      background:rgba(0,0,0,0.25);
-      backdrop-filter:blur(6px);
+    /* ดีไซน์การ์ดสมาชิก */
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      padding: 25px 15px;
+      width: 220px;
+      text-align: center;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
     }
 
-    @media (max-width:900px){.card{flex:1 1 calc(33.33% - 20px);}}
-    @media (max-width:600px){.card{flex:1 1 calc(50% - 20px);}header{font-size:1.8rem;}}
+    .card:hover {
+      background: rgba(255, 0, 0, 0.05);
+      border-color: var(--accent);
+      transform: translateY(-10px);
+    }
+
+    .profile {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 2px solid var(--glass-border);
+      transition: 0.3s;
+    }
+
+    .card:hover .profile { border-color: var(--accent); }
+
+    .card h3 {
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .card h3 i { color: var(--accent); font-size: 1.2rem; }
+
+    .fb-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 20px;
+      transition: 0.3s;
+    }
+
+    .fb-link:hover { background: white; color: black; }
+
+    /* ปุ่มกลับหน้าหลัก */
+    .back-nav {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+
+    .back-btn {
+      background: black;
+      color: white;
+      border: 1px solid white;
+      padding: 12px 30px;
+      cursor: pointer;
+      letter-spacing: 3px;
+      font-family: var(--font);
+      transition: 0.3s;
+    }
+
+    .back-btn:hover { background: white; color: black; }
+
+    footer {
+      padding: 40px;
+      text-align: center;
+      font-size: 10px;
+      opacity: 0.3;
+      letter-spacing: 3px;
+    }
   </style>
 </head>
 <body>
-  <header>Person List</header>
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="pain.mp4" type="video/mp4">
+  </video>
 
-  <div class="search-box">
+  <canvas id="particleCanvas"></canvas>
+
+  <header>GANG LIST</header>
+
+  <div class="search-container">
     <i class='bx bx-search'></i>
-    <input type="text" id="searchInput" placeholder="ค้นหารายชื่อ...">
+    <input type="text" id="searchInput" class="search-box" placeholder="SEARCH MEMBERS...">
   </div>
 
   <div class="container">
-    <section class="leader">
+    <section id="founderSection" style="display: none;">
+      <h2>Founder</h2>
+      <div class="list" id="founderList"></div>
+    </section>
+
+    <section id="leaderSection">
       <h2>Leader</h2>
       <div class="list" id="leaderList"></div>
     </section>
 
-    <section class="member">
+    <section id="memberSection">
       <h2>Member</h2>
       <div class="list" id="memberList"></div>
     </section>
   </div>
 
-  <footer>© 2025 Dekbangtlez — All rights reserved.</footer>
+  <nav class="back-nav">
+    <button class="back-btn" onclick="window.location.href='index.html'">BACK TO HOME</button>
+  </nav>
+
+  <footer>© KEN — ALL RIGHTS RESERVED</footer>
+
+  <script src="script.js"></script> 
 
   <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
@@ -204,32 +243,41 @@
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
+        const founderList = document.getElementById("founderList");
         const leaderList = document.getElementById("leaderList");
         const memberList = document.getElementById("memberList");
 
+        // กรองข้อมูลตามตำแหน่ง
+        const founders = data.filter(p => p.permission === "founder");
         const leaders = data.filter(p => p.permission === "leader");
         const members = data.filter(p => p.permission === "member");
 
-        function createCard(person, isLeader=false) {
+        // แสดงผล Founder ถ้ามีข้อมูล
+        if(founders.length > 0) document.getElementById("founderSection").style.display = "block";
+
+        function createCard(person, iconClass = null) {
           const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
-          const div = document.createElement("div");
-          div.className = "card";
-          div.innerHTML = `
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
             <img src="${imgSrc}" class="profile" alt="profile">
-            <h3>${person.name}${isLeader ? ' <i class="bx bx-crown"></i>' : ''}</h3>
-            <a href="${person.facebook}" target="_blank">Facebook</a>
+            <h3>${person.name}${iconClass ? ` <i class='bx ${iconClass}'></i>` : ''}</h3>
+            <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
           `;
-          return div;
+          return card;
         }
 
-        leaders.forEach(p => leaderList.appendChild(createCard(p, true)));
+        founders.forEach(p => founderList.appendChild(createCard(p, 'bx-star'))); // ดาวสำหรับ Founder
+        leaders.forEach(p => leaderList.appendChild(createCard(p, 'bx-crown'))); // มงกุฎสำหรับ Leader
         members.forEach(p => memberList.appendChild(createCard(p)));
 
+        // ระบบค้นหา
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
           document.querySelectorAll(".card").forEach(card => {
-            card.style.display = card.innerText.toLowerCase().includes(val) ? "" : "none";
+            const name = card.querySelector("h3").innerText.toLowerCase();
+            card.style.display = name.includes(val) ? "" : "none";
           });
         });
       });
