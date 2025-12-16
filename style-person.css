@@ -171,3 +171,34 @@ h2 {
 }
 
 footer { padding: 40px; text-align: center; opacity: 0.2; font-size: 10px; letter-spacing: 4px; }
+
+/* --- ส่วนที่แก้ไขเพิ่มเติม: แยกสีหัวข้อตามยศ --- */
+
+/* หัวข้อ FOUNDER ให้เป็นสีเหลืองทอง */
+#founderSection h2 {
+    color: var(--founder-color) !important;
+    border-bottom: 2px solid var(--founder-color) !important;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+/* หัวข้อ LEADER ให้เป็นสีแดงสด */
+#leaderSection h2 {
+    color: var(--leader-color) !important;
+    border-bottom: 2px solid var(--leader-color) !important;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* หัวข้อ MEMBER ให้เป็นสีขาว (แนะนำขาวเพื่อให้เห็นชัดบนพื้นหลังมืด) */
+#memberSection h2 {
+    color: #ffffff !important;
+    border-bottom: 2px solid #ffffff !important;
+    opacity: 0.8;
+}
+
+/* จัดระยะห่างของหัวข้อให้สมดุล */
+h2 {
+    font-size: 1.2rem !important;
+    letter-spacing: 10px !important;
+    margin-bottom: 40px !important;
+    text-transform: uppercase;
+}
