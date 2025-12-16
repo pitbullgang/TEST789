@@ -9,7 +9,7 @@
   <style>
     :root {
       --bg-color: #000000;
-      --accent: #ff0000; /* สีแดงกลุ่มแสงอุษา */
+      --accent: #ff0000; 
       --glass: rgba(255, 255, 255, 0.03);
       --glass-border: rgba(255, 255, 255, 0.1);
       --text: #ffffff;
@@ -26,7 +26,6 @@
       min-height: 100vh;
     }
 
-    /* วิดีโอพื้นหลังขาวดำ */
     #bg-video {
       position: fixed;
       top: 50%; left: 50%;
@@ -37,7 +36,6 @@
       object-fit: cover;
     }
 
-    /* หัวกะโหลกตกเหมือนหน้าแรก */
     #particleCanvas {
       position: fixed;
       top: 0; left: 0;
@@ -112,7 +110,6 @@
       justify-content: center;
     }
 
-    /* ดีไซน์การ์ดสมาชิก */
     .card {
       background: var(--glass);
       border: 1px solid var(--glass-border);
@@ -128,6 +125,13 @@
       background: rgba(255, 0, 0, 0.05);
       border-color: var(--accent);
       transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    /* สไตล์พิเศษสำหรับ Founder */
+    #founderList .card {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
     }
 
     .profile {
@@ -167,7 +171,6 @@
 
     .fb-link:hover { background: white; color: black; }
 
-    /* ปุ่มกลับหน้าหลัก */
     .back-nav {
       position: fixed;
       bottom: 40px;
@@ -247,13 +250,15 @@
         const leaderList = document.getElementById("leaderList");
         const memberList = document.getElementById("memberList");
 
-        // กรองข้อมูลตามตำแหน่ง
+        // กรองตำแหน่ง
         const founders = data.filter(p => p.permission === "founder");
         const leaders = data.filter(p => p.permission === "leader");
         const members = data.filter(p => p.permission === "member");
 
-        // แสดงผล Founder ถ้ามีข้อมูล
-        if(founders.length > 0) document.getElementById("founderSection").style.display = "block";
+        // แสดง Founder Section ถ้ามีคน
+        if(founders.length > 0) {
+            document.getElementById("founderSection").style.display = "block";
+        }
 
         function createCard(person, iconClass = null) {
           const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
@@ -267,8 +272,9 @@
           return card;
         }
 
-        founders.forEach(p => founderList.appendChild(createCard(p, 'bx-star'))); // ดาวสำหรับ Founder
-        leaders.forEach(p => leaderList.appendChild(createCard(p, 'bx-crown'))); // มงกุฎสำหรับ Leader
+        // วาดข้อมูลลงหน้าเว็บ
+        founders.forEach(p => founderList.appendChild(createCard(p, 'bx-star'))); 
+        leaders.forEach(p => leaderList.appendChild(createCard(p, 'bx-crown'))); 
         members.forEach(p => memberList.appendChild(createCard(p)));
 
         // ระบบค้นหา
@@ -280,7 +286,8 @@
             card.style.display = name.includes(val) ? "" : "none";
           });
         });
-      });
+      })
+      .catch(err => console.error("Error loading JSON:", err));
   </script>
 </body>
 </html>
