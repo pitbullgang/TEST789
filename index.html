@@ -20,7 +20,7 @@
       <p>BESTOFTOXICBOYS</p>
     </div>
 
-    <button id="memberBtn" onclick="window.location.href='person.html'">
+    <button id="memberBtn">
       <span>PERSON LIST</span>
     </button>
   </div>
@@ -30,8 +30,18 @@
   </footer>
 
   <script src="script.js"></script>
+
+  <script>
+    // --- 🎵 ระบบส่งค่าไปเล่นเพลงในหน้าถัดไป ---
+    const memberBtn = document.getElementById("memberBtn");
+    if (memberBtn) {
+      memberBtn.addEventListener("click", () => {
+        // บันทึกสถานะว่ามีการคลิกแล้ว เพื่อให้หน้า person.html เริ่มเพลงได้ทันที
+        sessionStorage.setItem('playMusic', 'true');
+        // เปลี่ยนหน้า
+        window.location.href = 'person.html';
+      });
+    }
+  </script>
 </body>
 </html>
-
-
-
