@@ -56,19 +56,37 @@
   <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
 
-    // --- 🎵 ระบบเล่นเพลงอัตโนมัติเมื่อกดมาจากหน้าแรก ---
+    // --- 🛡️ 1. ระบบป้องกันการเข้าถึงและแก้ไขโค้ด (Anti-Inspect) ---
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123) return false;
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
+      if (e.ctrlKey && e.keyCode == 85) return false;
+    };
+    document.addEventListener('selectstart', e => e.preventDefault());
+
+    // --- 🎵 2. ระบบเล่นเพลง (รองรับทั้ง Autoplay และการคลิกเพื่อเริ่ม) ---
     window.addEventListener("DOMContentLoaded", () => {
       const music = document.getElementById("list-music");
       const shouldPlay = sessionStorage.getItem('playMusic');
 
-      if (shouldPlay === 'true' && music) {
-        music.volume = 0.4;
-        music.play().catch(err => console.log("Autoplay blocked by browser. Click anywhere to play."));
-        sessionStorage.removeItem('playMusic'); // ล้างค่าหลังเล่นแล้ว
+      const startMusic = () => {
+        if (music) {
+          music.volume = 0.4;
+          music.play().then(() => {
+            document.removeEventListener('click', startMusic);
+          }).catch(err => console.log("Waiting for interaction..."));
+        }
+      };
+
+      if (shouldPlay === 'true') {
+        startMusic();
+        sessionStorage.removeItem('playMusic');
       }
+      document.addEventListener('click', startMusic);
     });
 
-    // --- 👥 ระบบดึงข้อมูลสมาชิกและแยกยศ ---
+    // --- 👥 3. ระบบดึงข้อมูลสมาชิกและแยกยศ ---
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
@@ -100,7 +118,7 @@
         leaders.forEach(p => leaderList.appendChild(createCard(p))); 
         members.forEach(p => memberList.appendChild(createCard(p)));
 
-        // --- 🔍 ระบบค้นหา ---
+        // --- 🔍 4. ระบบค้นหา ---
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
