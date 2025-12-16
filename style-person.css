@@ -1,17 +1,17 @@
 /* --- เพิ่มโค้ดส่วนนี้ไว้ท้ายไฟล์ style-person.css --- */
 
 /* Founder: ชื่อสีเหลือง */
-#founderList .card h3 {
+#founder .card h3 {
     color: var(--founder-color) !important;
 }
 
 /* Leader: ชื่อสีแดง */
-#leaderList .card h3 {
+#leader .card h3 {
     color: var(--accent) !important;
 }
 
 /* Member: ชื่อสีขาว */
-#memberList .card h3 {
+#member .card h3 {
     color: #ffffff !important;
 }
 
