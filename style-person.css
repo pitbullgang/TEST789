@@ -203,3 +203,59 @@ h2 {
     margin-bottom: 40px !important;
     text-transform: uppercase;
 }
+
+header {
+    text-align: center;
+    padding: 100px 20px 40px;
+    font-size: 4.5rem; /* ขยายขนาดให้เด่นขึ้น */
+    font-weight: 800;
+    letter-spacing: 25px;
+    text-transform: uppercase;
+    position: relative;
+    display: block;
+    width: 100%;
+    
+    /* สไตล์สีตัวอักษรแบบมีมิติ */
+    background: linear-gradient(
+        to right, 
+        #444 0%, 
+        #fff 50%, 
+        #444 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* เพิ่ม Animation แสงวิ่งผ่านตัวอักษร */
+    animation: shineText 4s linear infinite, floatHeader 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+}
+
+/* เอฟเฟกต์แสงวิ่งผ่าน (Shine Effect) */
+@keyframes shineText {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* เอฟเฟกต์หัวข้อลอยขึ้นลงเบาๆ (Floating Effect) */
+@keyframes floatHeader {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* เพิ่มเส้นตกแต่งด้านล่างที่มี Animation ขยายออก */
+header::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--accent), transparent);
+    margin: 20px auto 0;
+    animation: lineExpand 2s ease-out forwards;
+    animation-delay: 1s;
+}
+
+@keyframes lineExpand {
+    to { width: 300px; }
+}
