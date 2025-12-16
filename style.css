@@ -7,9 +7,10 @@
   --button-text-color: #ffffff;
   --font: 'Kanit', sans-serif;
   --text-color: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* 🌞 Light Theme Variables */
 .light-theme {
   --gradient-start: #f0f0f0;
   --gradient-end: #d9d9d9;
@@ -18,29 +19,65 @@
   --button-gradient-end: #e0e0e0;
   --button-text-color: #000000;
   --text-color: #000000;
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
 }
 
-/* Reset */
+/* Reset & Base */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
   height: 100%;
-  overflow: hidden;
+  width: 100%;
   font-family: var(--font);
   color: var(--text-color);
-  position: relative;
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* ป้องกันการเลื่อนถ้าไม่จำเป็น */
 }
 
-/* Theme Toggle */
+/* Main Wrapper - ตัวคลุมทั้งหมดให้ทุกอย่างอยู่กลางจอ */
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* ระยะห่างระหว่างรูปกับเมนู */
+  z-index: 10;
+  width: 90%;
+  max-width: 500px;
+}
+
+/* Image Styling - แก้ไขให้รูปดูดีขึ้น */
+.hero-image {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 2px solid var(--glass-border);
+}
+
+/* Center Container - ปรับให้เป็น Card สวยๆ */
+.center-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  text-align: center;
+  width: 100%;
+}
+
+/* Theme Toggle - อยู่มุมขวาบนเหมือนเดิม */
 .theme-toggle {
   position: fixed;
   top: 20px;
   right: 25px;
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--glass-bg);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 50px;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
   width: 50px;
   height: 50px;
   cursor: pointer;
@@ -48,57 +85,18 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 20;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
-.theme-toggle:hover {
-  background: rgba(255,255,255,0.15);
-  transform: scale(1.05);
-}
-.theme-toggle svg {
-  color: var(--text-color);
-  position: absolute;
-  transition: opacity 0.3s ease;
-}
-#sunIcon { opacity: 0; }
-.light-theme #moonIcon { opacity: 0; }
-.light-theme #sunIcon { opacity: 1; }
 
-/* Loading screen */
+/* Loading Screen */
 #loading-screen {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: #000;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 999;
-  transition: opacity 1s ease;
 }
-#loading-screen.hidden { opacity: 0; pointer-events: none; }
-
-.loader {
-  border: 4px solid rgba(255,255,255,0.1);
-  border-top: 4px solid #888;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { 100% { transform: rotate(360deg); } }
-
-/* Center content - shifted higher for focus */
-.center-container {
-  position: absolute;
-  top: 40%;  /* 👈 เดิม 50% ปรับขึ้น */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 5;
-}
-
-/* Gradient Text Animation */
-.gradient-text {
-  background: linear-gradient(270deg, #ffffff, #999, #ffffff);
-  background-size:
+#loading-screen.hidden { opacity: 0; pointer-events: none; transition: 1s; }
