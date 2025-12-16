@@ -57,7 +57,6 @@ body {
 
 .back-btn:hover { background: #fff; color: #000; }
 
-/* จัดการหัวข้อ GANG LIST ให้ตรงกลาง */
 header {
   text-align: center;
   padding: 100px 20px 40px;
@@ -71,7 +70,6 @@ header {
   display: block;
 }
 
-/* จัดการช่องค้นหาให้ตรงกลาง */
 .search-container {
   width: 90%;
   max-width: 500px;
@@ -104,12 +102,13 @@ header {
   text-align: center;
 }
 
+/* --- แก้ไข: ลบเส้นใต้ h2 พื้นฐาน --- */
 h2 {
   font-size: 0.8rem;
   letter-spacing: 6px;
   color: var(--accent);
   margin-bottom: 35px;
-  border-bottom: 1px solid var(--accent);
+  border-bottom: none; /* ลบเส้นใต้ออก */
   display: inline-block;
   padding-bottom: 5px;
   text-transform: uppercase;
@@ -122,7 +121,6 @@ h2 {
   justify-content: center;
 }
 
-/* การ์ดสมาชิกแบบใส */
 .card {
   background: var(--glass) !important;
   border: 1px solid var(--glass-border) !important;
@@ -132,130 +130,4 @@ h2 {
   backdrop-filter: blur(4px);
   transition: 0.4s ease;
   box-shadow: none !important;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.05) !important;
-}
-
-.profile {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* กำหนดสีชื่อ (ID เป็นตัวเล็กทั้งหมด) */
-#founderlist .card h3 { 
-  color: var(--founder-color) !important; 
-  text-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
-}
-#leaderlist .card h3 { 
-  color: var(--leader-color) !important; 
-  text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-}
-#memberlist .card h3 { color: #fff !important; }
-
-.fb-link {
-  display: inline-block;
-  color: #fff;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 6px 15px;
-  margin-top: 10px;
-}
-
-footer { padding: 40px; text-align: center; opacity: 0.2; font-size: 10px; letter-spacing: 4px; }
-
-/* --- ส่วนที่แก้ไขเพิ่มเติม: แยกสีหัวข้อตามยศ --- */
-
-/* หัวข้อ FOUNDER ให้เป็นสีเหลืองทอง */
-#founderSection h2 {
-    color: var(--founder-color) !important;
-    border-bottom: 2px solid var(--founder-color) !important;
-    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-}
-
-/* หัวข้อ LEADER ให้เป็นสีแดงสด */
-#leaderSection h2 {
-    color: var(--leader-color) !important;
-    border-bottom: 2px solid var(--leader-color) !important;
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
-/* หัวข้อ MEMBER ให้เป็นสีขาว (แนะนำขาวเพื่อให้เห็นชัดบนพื้นหลังมืด) */
-#memberSection h2 {
-    color: #ffffff !important;
-    border-bottom: 2px solid #ffffff !important;
-    opacity: 0.8;
-}
-
-/* จัดระยะห่างของหัวข้อให้สมดุล */
-h2 {
-    font-size: 1.2rem !important;
-    letter-spacing: 10px !important;
-    margin-top: 60px !important;    /* ⭐ เพิ่มบรรทัดนี้เพื่อลดระดับหัวข้อลงมา */
-    margin-bottom: 40px !important;
-    text-transform: uppercase;
-}
-
-header {
-    text-align: center;
-    padding: 100px 20px 40px;
-    font-size: 4.5rem; /* ขยายขนาดให้เด่นขึ้น */
-    font-weight: 800;
-    letter-spacing: 25px;
-    text-transform: uppercase;
-    position: relative;
-    display: block;
-    width: 100%;
-    
-    /* สไตล์สีตัวอักษรแบบมีมิติ */
-    background: linear-gradient(
-        to right, 
-        #444 0%, 
-        #fff 50%, 
-        #444 100%
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
-    /* เพิ่ม Animation แสงวิ่งผ่านตัวอักษร */
-    animation: shineText 4s linear infinite, floatHeader 6s ease-in-out infinite;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-}
-
-/* เอฟเฟกต์แสงวิ่งผ่าน (Shine Effect) */
-@keyframes shineText {
-    to {
-        background-position: 200% center;
-    }
-}
-
-/* เอฟเฟกต์หัวข้อลอยขึ้นลงเบาๆ (Floating Effect) */
-@keyframes floatHeader {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-/* เพิ่มเส้นตกแต่งด้านล่างที่มี Animation ขยายออก */
-header::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(to right, transparent, var(--accent), transparent);
-    margin: 20px auto 0;
-    animation: lineExpand 2s ease-out forwards;
-    animation-delay: 1s;
-}
-
-@keyframes lineExpand {
-    to { width: 300px; }
 }
