@@ -199,6 +199,7 @@ footer { padding: 40px; text-align: center; opacity: 0.2; font-size: 10px; lette
 h2 {
     font-size: 1.2rem !important;
     letter-spacing: 10px !important;
+    margin-top: 60px !important;    /* ⭐ เพิ่มบรรทัดนี้เพื่อลดระดับหัวข้อลงมา */
     margin-bottom: 40px !important;
     text-transform: uppercase;
 }
