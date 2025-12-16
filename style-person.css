@@ -1,9 +1,10 @@
 :root {
   --text-color: #ffffff;
   --accent: #ff0000;
+  --founder-color: #ffff00; /* สีเหลืองสำหรับ Founder */
   --font: 'Kanit', sans-serif;
-  --glass: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass: rgba(255, 255, 255, 0.02); /* ปรับให้ใสขึ้นมาก */
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,49 +41,44 @@ body {
   pointer-events: none;
 }
 
-/* --------------------------------------
-   ⭐ ใหม่: ปุ่ม BACK TO HOME (ขวาบน)
------------------------------------------ */
+/* ⭐ ปุ่ม BACK TO HOME (ขวาบน) */
 .back-nav {
-  position: fixed; /* ใช้ fixed เพื่อให้ติดอยู่ที่เดิมเวลาเลื่อนจอ */
+  position: fixed;
   top: 30px;
   right: 40px;
-  z-index: 100;
+  z-index: 9999;
 }
 
 .back-btn {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 8px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 25px;
   cursor: pointer;
   font-family: var(--font);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: all 0.4s ease;
-  border-radius: 2px;
+  backdrop-filter: blur(5px);
 }
 
 .back-btn:hover {
   background: #ffffff;
   color: #000000;
-  border-color: #ffffff;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* --------------------------------------
-   ส่วนเนื้อหารายชื่อสมาชิก
------------------------------------------ */
+/* ส่วนเนื้อหาหลัก */
 .container {
   width: 90%;
   max-width: 1100px;
-  margin: 100px auto 150px; /* เว้นระยะจากด้านบนเพื่อให้ไม่ทับปุ่ม */
+  margin: 120px auto 100px;
   text-align: center;
 }
 
 header {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 700;
   letter-spacing: 15px;
   margin-bottom: 60px;
@@ -97,7 +93,7 @@ section { margin-bottom: 80px; }
 
 h2 {
   font-size: 0.8rem;
-  letter-spacing: 5px;
+  letter-spacing: 6px;
   color: var(--accent);
   margin-bottom: 35px;
   border-bottom: 1px solid var(--accent);
@@ -113,21 +109,20 @@ h2 {
   justify-content: center;
 }
 
-/* ดีไซน์การ์ดสมาชิกแบบ Glassmorphism */
+/* --- การ์ดสมาชิกแบบใส (Transparent Card) --- */
 .card {
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  padding: 30px 20px;
-  width: 220px;
+  padding: 35px 25px;
+  width: 230px;
   border-radius: 4px;
-  backdrop-filter: blur(5px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card:hover {
-  background: rgba(255, 0, 0, 0.05);
-  border-color: var(--accent);
-  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .profile {
@@ -135,23 +130,30 @@ h2 {
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 15px;
-  border: 2px solid var(--glass-border);
+  margin-bottom: 20px;
+  border: 1px solid var(--glass-border);
   transition: 0.3s;
 }
 
-.card:hover .profile {
-  border-color: var(--accent);
-}
+/* --- สีชื่อและกรอบแยกตามตำแหน่ง (ไม่มีไอคอน) --- */
+
+/* Founder: ชื่อสีเหลือง */
+#founderList .card h3 { color: var(--founder-color); }
+#founderList .card:hover { border-color: var(--founder-color); }
+
+/* Leader: ชื่อสีแดง */
+#leaderList .card h3 { color: var(--accent); }
+#leaderList .card:hover { border-color: var(--accent); }
+
+/* Member: ชื่อสีขาว */
+#memberList .card h3 { color: #ffffff; }
+#memberList .card:hover { border-color: #ffffff; }
 
 .card h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   letter-spacing: 2px;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .fb-link {
@@ -160,8 +162,8 @@ h2 {
   text-decoration: none;
   font-size: 0.7rem;
   letter-spacing: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 6px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 20px;
   transition: 0.3s;
 }
 
@@ -170,18 +172,15 @@ h2 {
   color: #000;
 }
 
-/* Footer */
 footer {
-  width: 100%;
+  padding: 60px 20px;
   text-align: center;
-  padding: 40px;
   font-size: 10px;
-  opacity: 0.3;
-  letter-spacing: 3px;
+  opacity: 0.2;
+  letter-spacing: 4px;
 }
 
-/* Animation หัวข้อ */
 @keyframes floatTitle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-15px); }
 }
