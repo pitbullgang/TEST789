@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dekbangtlez Gang</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Loading -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
+    <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"></path>
+    </svg>
+    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </div>
+
+  <!-- Particle Layer -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- วงกลมเมาส์ -->
+  <div id="circle"></div>
+
+  <!-- เนื้อหา -->
+  <div class="center-container">
+    <div class="title">
+      <h2 class="gradient-text">Dekbangtlez Gang</h2>
+      <p class="gradient-text">1 PERSON IN MY GANG</p>
+    </div>
+
+    <button id="memberBtn">
+      <span>Person List</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 17h16M4 12h16M4 7h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Dekbangtlez — All rights reserved.</p>
+  </footer>
+
+  <audio id="bg-music" autoplay loop></audio>
+  <script src="script.js"></script>
+</body>
+</html>
