@@ -265,21 +265,23 @@
             document.getElementById("founderSection").style.display = "block";
         }
 
-        function createCard(person, iconClass = null) {
+        function createCard(person) {
           const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
           const card = document.createElement("div");
           card.className = "card";
+          // ลบส่วนที่ดึงไอคอน bxs-star หรือ bx-crown ออก ให้เหลือแค่ชื่อเปล่าๆ
           card.innerHTML = `
             <img src="${imgSrc}" class="profile" alt="profile">
-            <h3>${person.name}${iconClass ? ` <i class='bx ${iconClass}'></i>` : ''}</h3>
+            <h3>${person.name}</h3>
             <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
           `;
           return card;
         }
 
-        founders.forEach(p => founderList.appendChild(createCard(p, 'bx-star'))); 
-        leaders.forEach(p => leaderList.appendChild(createCard(p, 'bx-crown'))); 
-        members.forEach(p => memberList.appendChild(createCard(p)));
+        // --- แก้ไขการวาดการ์ดลงใน List (เอาพารามิเตอร์ไอคอนออก) ---
+         founders.forEach(p => founderList.appendChild(createCard(p))); 
+         leaders.forEach(p => leaderList.appendChild(createCard(p))); 
+         members.forEach(p => memberList.appendChild(createCard(p)));
 
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
@@ -294,3 +296,4 @@
   </script>
 </body>
 </html>
+
