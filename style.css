@@ -1,9 +1,6 @@
 :root {
-  --gradient-start: #000000;
   --text-color: #ffffff;
-  --glass-bg: rgba(0, 0, 0, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --accent-color: #ffffff;
+  --accent-color: #ff0000; /* สีแดงสไตล์แสงอุษา */
   --font: 'Kanit', sans-serif;
 }
 
@@ -15,6 +12,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -32,7 +30,7 @@ body {
   z-index: -2;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  /* ขาวดำ 100% และ สว่าง 60% */
+  /* ขาวดำ และ สว่าง 60% */
   filter: grayscale(100%) brightness(60%);
 }
 
@@ -45,56 +43,45 @@ body {
   z-index: -1;
 }
 
+/* เอาพื้นหลังกรอบทึบออก เน้นตัวหนังสือลอยบนวิดีโอ */
 .center-container {
-  background: var(--glass-bg);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  padding: 40px;
-  border-radius: 24px;
-  border: 1px solid var(--glass-border);
   text-align: center;
   z-index: 10;
   width: 90%;
-  max-width: 380px;
+  max-width: 600px;
+  animation: fadeIn 1.5s ease-out;
 }
 
-.title h2 { font-size: 2.5rem; letter-spacing: 3px; margin-bottom: 5px; }
-.title p { font-size: 0.9rem; opacity: 0.6; margin-bottom: 30px; }
+/* ปรับ PHAWHA ให้ใหญ่และเด่นมาก */
+.title h2 {
+  font-size: 5rem; /* ใหญ่สะใจ */
+  font-weight: 700;
+  letter-spacing: 15px; /* ระยะห่างตัวอักษรให้ดูเท่ */
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  background: linear-gradient(to bottom, #fff, #666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
 
+.title p {
+  font-size: 1.2rem;
+  letter-spacing: 8px;
+  opacity: 0.5;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+/* ปุ่มดีไซน์ใหม่: ไม่มีกรอบขาวทึบ เป็นเส้นใต้เท่ๆ หรือเส้นขอบบาง */
 #memberBtn {
-  background: var(--accent-color);
-  color: #000;
-  border: none;
-  padding: 14px;
-  border-radius: 50px;
-  display: flex;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 40px;
+  border-radius: 4px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  width: 100%;
-  cursor: pointer;
-  font-weight: 700;
-  transition: 0.3s;
-}
-
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-  cursor: pointer;
-  background: var(--glass-bg);
-  padding: 12px;
-  border-radius: 50%;
-  border: 1px solid var(--glass-border);
-}
-
-footer {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
-  font-size: 10px;
-  opacity: 0.4;
-  letter-spacing: 2px;
-}
+  gap: 15px;
+  width: auto; /* ไม่ยาวเต็มจอ */
