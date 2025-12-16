@@ -8,13 +8,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Loading -->
+  <video autoplay muted loop id="bg-video">
+    <source src="pain.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
   <div id="loading-screen">
     <div class="loader"></div>
     <p>Loading...</p>
   </div>
 
-  <!-- Theme Toggle -->
   <div class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
     <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"></path>
@@ -32,13 +34,10 @@
     </svg>
   </div>
 
-  <!-- Particle Layer -->
   <canvas id="particleCanvas"></canvas>
 
-  <!-- วงกลมเมาส์ -->
   <div id="circle"></div>
 
-  <!-- เนื้อหา -->
   <div class="center-container">
     <div class="title">
       <h2 class="gradient-text">PHAWHA</h2>
@@ -53,7 +52,6 @@
     </button>
   </div>
 
-  <!-- Footer -->
   <footer>
     <p>KEN</p>
   </footer>
@@ -62,4 +60,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
