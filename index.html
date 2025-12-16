@@ -32,16 +32,35 @@
   <script src="script.js"></script>
 
   <script>
-    // --- 🎵 ระบบส่งค่าไปเล่นเพลงในหน้าถัดไป ---
+    // --- 🎵 1. ระบบจัดการปุ่มกดและส่งค่าไปเล่นเพลง ---
     const memberBtn = document.getElementById("memberBtn");
     if (memberBtn) {
       memberBtn.addEventListener("click", () => {
         // บันทึกสถานะว่ามีการคลิกแล้ว เพื่อให้หน้า person.html เริ่มเพลงได้ทันที
         sessionStorage.setItem('playMusic', 'true');
-        // เปลี่ยนหน้า
         window.location.href = 'person.html';
       });
     }
+
+    // --- 🛡️ 2. ระบบป้องกันการเข้าถึงและแก้ไขโค้ด (Anti-Inspect) ---
+    
+    // บล็อกการคลิกขวา (ป้องกันเมนู Inspect)
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // บล็อกปุ่มลัดคีย์บอร์ดต่างๆ
+    document.onkeydown = function(e) {
+      // บล็อก F12
+      if (e.keyCode == 123) return false;
+      
+      // บล็อก Ctrl + Shift + I (Inspect) และ Ctrl + Shift + J (Console)
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
+      
+      // บล็อก Ctrl + U (ดู Source Code)
+      if (e.ctrlKey && e.keyCode == 85) return false;
+    };
+
+    // --- 🚫 3. ระบบป้องกันการลากคลุม (ป้องกันการก๊อปปี้ข้อความ/รูปภาพ) ---
+    document.addEventListener('selectstart', e => e.preventDefault());
   </script>
 </body>
 </html>
