@@ -1,121 +1,187 @@
 :root {
-    --accent: #ff0000;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.1);
+  --text-color: #ffffff;
+  --accent: #ff0000;
+  --font: 'Kanit', sans-serif;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    margin: 0;
-    font-family: 'Kanit', sans-serif;
-    color: white;
-    background: #000;
-    overflow-x: hidden;
+  font-family: var(--font);
+  color: var(--text-color);
+  background-color: #000;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* พื้นหลังวิดีโอ */
 #bg-video {
-    position: fixed;
-    top: 50%; left: 50%;
-    min-width: 100%; min-height: 100%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    filter: grayscale(100%) brightness(30%); /* ปรับมืดกว่าหน้าแรกเพื่อให้ตัวหนังสืออ่านง่าย */
-    object-fit: cover;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  z-index: -2;
+  object-fit: cover;
+  filter: grayscale(100%) brightness(30%);
 }
 
+/* หัวกะโหลกตก */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --------------------------------------
+   ⭐ ใหม่: ปุ่ม BACK TO HOME (ขวาบน)
+----------------------------------------- */
+.back-nav {
+  position: fixed; /* ใช้ fixed เพื่อให้ติดอยู่ที่เดิมเวลาเลื่อนจอ */
+  top: 30px;
+  right: 40px;
+  z-index: 100;
+}
+
+.back-btn {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 20px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+  border-radius: 2px;
+}
+
+.back-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* --------------------------------------
+   ส่วนเนื้อหารายชื่อสมาชิก
+----------------------------------------- */
 .container {
-    max-width: 1000px;
-    margin: 80px auto;
-    padding: 20px;
-    text-align: center;
+  width: 90%;
+  max-width: 1100px;
+  margin: 100px auto 150px; /* เว้นระยะจากด้านบนเพื่อให้ไม่ทับปุ่ม */
+  text-align: center;
 }
 
-.page-title {
-    font-size: 3rem;
-    letter-spacing: 15px;
-    margin-bottom: 60px;
-    opacity: 0.8;
+header {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 15px;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+  background: linear-gradient(to bottom, #fff, #666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: floatTitle 4s ease-in-out infinite;
 }
 
-.section-label {
-    font-size: 0.8rem;
-    letter-spacing: 5px;
-    color: var(--accent);
-    margin-bottom: 30px;
-    border-bottom: 1px solid var(--accent);
-    display: inline-block;
-    padding-bottom: 5px;
+section { margin-bottom: 80px; }
+
+h2 {
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  color: var(--accent);
+  margin-bottom: 35px;
+  border-bottom: 1px solid var(--accent);
+  display: inline-block;
+  padding-bottom: 5px;
+  text-transform: uppercase;
 }
 
-.group-section { margin-bottom: 80px; }
-
-.member-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
 }
 
-/* ดีไซน์การ์ดสมาชิก */
-.member-card {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    padding: 30px;
-    width: 200px;
-    border-radius: 4px;
-    transition: 0.4s;
+/* ดีไซน์การ์ดสมาชิกแบบ Glassmorphism */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  padding: 30px 20px;
+  width: 220px;
+  border-radius: 4px;
+  backdrop-filter: blur(5px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.member-card:hover {
-    background: rgba(255, 0, 0, 0.05);
-    border-color: var(--accent);
-    transform: translateY(-10px);
+.card:hover {
+  background: rgba(255, 0, 0, 0.05);
+  border-color: var(--accent);
+  transform: translateY(-10px);
 }
 
-.avatar-wrapper {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--border);
+.profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 2px solid var(--glass-border);
+  transition: 0.3s;
 }
 
-.avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-
-.member-card h3 {
-    font-size: 1rem;
-    letter-spacing: 2px;
-    margin-bottom: 5px;
+.card:hover .profile {
+  border-color: var(--accent);
 }
 
-.member-card p {
-    font-size: 0.7rem;
-    opacity: 0.5;
-    margin-bottom: 15px;
+.card h3 {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .fb-link {
-    color: white;
-    text-decoration: none;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 5px 15px;
-    transition: 0.3s;
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 20px;
+  transition: 0.3s;
 }
 
-.fb-link:hover { background: white; color: black; }
-
-/* ปุ่มย้อนกลับ */
-.back-btn {
-    margin-top: 50px;
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 10px 30px;
-    cursor: pointer;
-    letter-spacing: 3px;
-    transition: 0.3s;
+.fb-link:hover {
+  background: #fff;
+  color: #000;
 }
 
-.back-btn:hover { background: white; color: black; }
+/* Footer */
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 40px;
+  font-size: 10px;
+  opacity: 0.3;
+  letter-spacing: 3px;
+}
+
+/* Animation หัวข้อ */
+@keyframes floatTitle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
