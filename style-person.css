@@ -1,19 +1,32 @@
-:root {
-  --text-color: #ffffff;
-  --accent: #ff0000;
-  --founder-color: #ffff00;
-  --leader-color: #ff4d4d;
-  --font: 'Kanit', sans-serif;
-  --glass: rgba(255, 255, 255, 0.01);
-  --glass-border: rgba(255, 255, 255, 0.08);
+/* --- ส่วนแก้ไขขนาดรูปภาพและการ์ด (สำคัญมากเพื่อแก้หน้าขาว) --- */
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
 }
 
-/* ... (โค้ดเดิมของคุณตั้งแต่ body ไปจนถึง @keyframes lineExpand) ... */
+.card {
+    background: var(--glass) !important;
+    border: 1px solid var(--glass-border) !important;
+    padding: 35px 20px;
+    width: 230px; /* คุมความกว้างการ์ด */
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    transition: 0.4s ease;
+    text-align: center;
+}
 
-/* =========================================
-   PAGINATION SYSTEM (ส่วนที่เพิ่มใหม่)
-   ========================================= */
+.card .profile {
+    width: 100px; /* คุมขนาดรูปวงกลม */
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
 
+/* --- Pagination Style --- */
 .pagination-container {
     display: flex;
     justify-content: center;
@@ -33,32 +46,18 @@
     font-family: var(--font);
     font-size: 0.9rem;
     letter-spacing: 2px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s;
     border-radius: 4px;
-    backdrop-filter: blur(10px);
 }
 
 .page-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
     border-color: var(--leader-color);
-    transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
 }
 
 .page-btn.active {
     background: var(--leader-color) !important;
-    border-color: var(--leader-color);
     color: #000;
     font-weight: bold;
-    box-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
-}
-
-/* เพิ่มแอนิเมชั่นเวลาเปลี่ยนหน้า */
-#memberlist .card {
-    animation: fadeIn 0.5s ease forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    box-shadow: 0 0 20px var(--leader-color);
 }
