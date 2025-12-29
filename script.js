@@ -111,4 +111,61 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.body.classList.toggle("light-theme");
     });
   }
+
+  // 📑 6. MEMBER PAGINATION (เพิ่มส่วนนี้)
+const memberGrid = document.querySelector('.member-list'); // ใส่ Class ของ Container ที่เก็บ Member
+const itemsPerPage = 8; // กำหนดจำนวนคนต่อ 1 หน้า
+let currentPage = 1;
+
+async function initPagination() {
+    // ดึงข้อมูลสมาชิก (สมมติว่าคุณเก็บข้อมูลไว้ใน JSON หรือดึงจาก DOM)
+    const members = Array.from(document.querySelectorAll('.member-card')); // หรือ Class ของการ์ดสมาชิก
+    if (members.length === 0) return;
+
+    const totalPages = Math.ceil(members.length / itemsPerPage);
+
+    function showPage(page) {
+        currentPage = page;
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        members.forEach((member, index) => {
+            member.style.display = (index >= start && index < end) ? 'block' : 'none';
+        });
+
+        updatePaginationButtons(totalPages);
+    }
+
+    function updatePaginationButtons(total) {
+        let paginationContainer = document.getElementById('pagination-controls');
+        if (!paginationContainer) {
+            paginationContainer = document.createElement('div');
+            paginationContainer.id = 'pagination-controls';
+            paginationContainer.className = 'pagination-container';
+            // วางปุ่มไว้ล่างสุดของ Member List
+            memberGrid.after(paginationContainer);
+        }
+
+        paginationContainer.innerHTML = '';
+        for (let i = 1; i <= total; i++) {
+            const btn = document.createElement('button');
+            btn.innerText = i;
+            btn.className = (i === currentPage) ? 'page-btn active' : 'page-btn';
+            btn.addEventListener('click', () => {
+                showPage(i);
+                window.scrollTo({ top: memberGrid.offsetTop - 100, behavior: 'smooth' });
+            });
+            paginationContainer.appendChild(btn);
+        }
+    }
+
+    showPage(1); // เริ่มต้นที่หน้า 1
+}
+
+// เรียกใช้งานฟังก์ชัน
+if (window.location.pathname.includes("person.html")) {
+    initPagination();
+}
+  
 });
+
