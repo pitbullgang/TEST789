@@ -45,7 +45,8 @@
 
     <section id="memberSection">
       <h2>Member</h2>
-      <div class="list" id="memberlist"></div>
+      <div id="memberlist" class="list"></div>
+      <div id="pagination-controls" class="pagination-container"></div>
     </section>
   </div>
 
@@ -55,8 +56,11 @@
 
   <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
+    let allMembers = []; // เก็บข้อมูลสมาชิกทั้งหมดเพื่อใช้ทำ Pagination
+    const itemsPerPage = 8; // จำนวนสมาชิกต่อ 1 หน้า (ปรับเปลี่ยนได้ตามต้องการ)
+    let currentPage = 1;
 
-    // --- 🛡️ 1. ระบบป้องกันการเข้าถึงและแก้ไขโค้ด (Anti-Inspect) ---
+    // --- 🛡️ 1. ระบบป้องกันการเข้าถึง (คงเดิม) ---
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
@@ -65,11 +69,10 @@
     };
     document.addEventListener('selectstart', e => e.preventDefault());
 
-    // --- 🎵 2. ระบบเล่นเพลง (รองรับทั้ง Autoplay และการคลิกเพื่อเริ่ม) ---
+    // --- 🎵 2. ระบบเล่นเพลง (คงเดิม) ---
     window.addEventListener("DOMContentLoaded", () => {
       const music = document.getElementById("list-music");
       const shouldPlay = sessionStorage.getItem('playMusic');
-
       const startMusic = () => {
         if (music) {
           music.volume = 0.4;
@@ -78,7 +81,6 @@
           }).catch(err => console.log("Waiting for interaction..."));
         }
       };
-
       if (shouldPlay === 'true') {
         startMusic();
         sessionStorage.removeItem('playMusic');
@@ -86,46 +88,85 @@
       document.addEventListener('click', startMusic);
     });
 
-    // --- 👥 3. ระบบดึงข้อมูลสมาชิกและแยกยศ ---
+    // --- 👥 3. ระบบดึงข้อมูลและ Pagination ---
+    function createCard(person) {
+      const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${imgSrc}" class="profile" alt="profile">
+        <h3>${person.name}</h3>
+        <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
+      `;
+      return card;
+    }
+
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const container = document.getElementById("pagination-controls");
+      container.innerHTML = "";
+
+      if (totalPages <= 1) return; // ถ้ามีหน้าเดียวไม่ต้องโชว์ปุ่ม
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = (i === currentPage) ? "page-btn active" : "page-btn";
+        btn.onclick = () => {
+          currentPage = i;
+          displayMembers(allMembers);
+          document.getElementById('memberSection').scrollIntoView({ behavior: 'smooth' });
+        };
+        container.appendChild(btn);
+      }
+    }
+
+    function displayMembers(membersArray) {
+      const memberList = document.getElementById("memberlist");
+      memberList.innerHTML = "";
+
+      // คำนวณ Index สำหรับหน้าปัจจุบัน
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedItems = membersArray.slice(start, end);
+
+      paginatedItems.forEach(p => memberList.appendChild(createCard(p)));
+      renderPagination(membersArray.length);
+    }
+
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
         const founderList = document.getElementById("founderlist");
         const leaderList = document.getElementById("leaderlist");
-        const memberList = document.getElementById("memberlist");
 
         const founders = data.filter(p => p.permission === "founder");
         const leaders = data.filter(p => p.permission === "leader");
-        const members = data.filter(p => p.permission === "member");
+        allMembers = data.filter(p => p.permission === "member");
 
         if(founders.length > 0) {
             document.getElementById("founderSection").style.display = "block";
+            founders.forEach(p => founderList.appendChild(createCard(p))); 
         }
-
-        function createCard(person) {
-          const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <img src="${imgSrc}" class="profile" alt="profile">
-            <h3>${person.name}</h3>
-            <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
-          `;
-          return card;
-        }
-
-        founders.forEach(p => founderList.appendChild(createCard(p))); 
         leaders.forEach(p => leaderList.appendChild(createCard(p))); 
-        members.forEach(p => memberList.appendChild(createCard(p)));
 
-        // --- 🔍 4. ระบบค้นหา ---
+        // แสดงผลหน้าแรก
+        displayMembers(allMembers);
+
+        // --- 🔍 4. ระบบค้นหา (ปรับปรุงให้รองรับ Pagination) ---
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
-          document.querySelectorAll(".card").forEach(card => {
-            const name = card.querySelector("h3").innerText.toLowerCase();
-            card.style.display = name.includes(val) ? "" : "none";
-          });
+          
+          if (val === "") {
+            displayMembers(allMembers); // ถ้าว่างให้กลับมาแบ่งหน้าปกติ
+          } else {
+            const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
+            const memberList = document.getElementById("memberlist");
+            memberList.innerHTML = "";
+            filtered.forEach(p => memberList.appendChild(createCard(p)));
+            document.getElementById("pagination-controls").innerHTML = ""; // ซ่อนปุ่มเวลาค้นหา
+          }
         });
       })
       .catch(err => console.error("Error loading JSON:", err));
