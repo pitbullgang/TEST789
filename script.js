@@ -54,4 +54,95 @@ document.addEventListener("DOMContentLoaded", async () => {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         speedY: Math.random() * 0.5 + 0.3,
-        speedX: Math.random() * 0.2 - 0.1
+        speedX: Math.random() * 0.2 - 0.1,
+        opacity: Math.random() * 0.2 + 0.1,
+        rotation: Math.random() * Math.PI * 2,
+        spin: Math.random() * 0.02 - 0.01
+      });
+    }
+
+    function drawSkulls() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = "18px serif";
+      ctx.textAlign = "center";
+      skulls.forEach(s => {
+        ctx.save();
+        ctx.globalAlpha = s.opacity;
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.rotation);
+        ctx.fillText("💀", 0, 0);
+        ctx.restore();
+        s.y += s.speedY;
+        s.x += s.speedX;
+        s.rotation += s.spin;
+        if (s.y > canvas.height + 50) {
+          s.y = -50;
+          s.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawSkulls);
+    }
+    drawSkulls();
+  }
+
+  // 🔘 4. Member Button Click
+  const memberBtn = document.getElementById("memberBtn");
+  if (memberBtn) {
+    memberBtn.addEventListener("click", () => {
+      window.location.href = "person.html";
+    });
+  }
+
+  // 📑 5. MEMBER PAGINATION (ระบบแบ่งหน้าสำเร็จรูป)
+  if (window.location.pathname.includes("person.html")) {
+    const memberGrid = document.querySelector('#memberlist'); // อ้างอิง ID ตาม CSS ของคุณ
+    const itemsPerPage = 8; // จำนวนสมาชิกต่อ 1 หน้า (ปรับเปลี่ยนได้ตามใจชอบ)
+    
+    if (memberGrid) {
+      // ดึงเฉพาะการ์ดที่อยู่ในส่วน Member เท่านั้น (ไม่รวม Leader/Founder)
+      const members = Array.from(memberGrid.querySelectorAll('.card'));
+      
+      if (members.length > 0) {
+        const totalPages = Math.ceil(members.length / itemsPerPage);
+        let currentPage = 1;
+
+        const showPage = (page) => {
+          currentPage = page;
+          const start = (page - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+
+          members.forEach((member, index) => {
+            member.style.display = (index >= start && index < end) ? 'block' : 'none';
+          });
+          updateButtons();
+        };
+
+        const updateButtons = () => {
+          let controls = document.getElementById('pagination-controls');
+          if (!controls) {
+            controls = document.createElement('div');
+            controls.id = 'pagination-controls';
+            controls.className = 'pagination-container';
+            memberGrid.after(controls);
+          }
+
+          controls.innerHTML = '';
+          for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.innerText = i;
+            btn.className = (i === currentPage) ? 'page-btn active' : 'page-btn';
+            btn.onclick = () => {
+              showPage(i);
+              // เลื่อนหน้าจอไปที่จุดเริ่มของรายชื่อสมาชิก
+              const section = document.getElementById('memberSection');
+              if (section) section.scrollIntoView({ behavior: 'smooth' });
+            };
+            controls.appendChild(btn);
+          }
+        };
+
+        showPage(1); // เริ่มที่หน้าแรก
+      }
+    }
+  }
+});
