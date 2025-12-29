@@ -56,23 +56,21 @@
 
   <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
-    let allMembers = []; // เก็บข้อมูลสมาชิกทั้งหมดเพื่อใช้ทำ Pagination
-    const itemsPerPage = 8; // จำนวนสมาชิกต่อ 1 หน้า (ปรับเปลี่ยนได้ตามต้องการ)
+    let allMembers = []; 
+    const itemsPerPage = 8; 
     let currentPage = 1;
 
-    // --- 🛡️ 1. ระบบป้องกันการเข้าถึง (คงเดิม) ---
+    // --- 🛡️ 1. ระบบป้องกันการเข้าถึง ---
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
       if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
       if (e.ctrlKey && e.keyCode == 85) return false;
     };
-    document.addEventListener('selectstart', e => e.preventDefault());
 
-    // --- 🎵 2. ระบบเล่นเพลง (คงเดิม) ---
+    // --- 🎵 2. ระบบเล่นเพลง ---
     window.addEventListener("DOMContentLoaded", () => {
       const music = document.getElementById("list-music");
-      const shouldPlay = sessionStorage.getItem('playMusic');
       const startMusic = () => {
         if (music) {
           music.volume = 0.4;
@@ -81,10 +79,6 @@
           }).catch(err => console.log("Waiting for interaction..."));
         }
       };
-      if (shouldPlay === 'true') {
-        startMusic();
-        sessionStorage.removeItem('playMusic');
-      }
       document.addEventListener('click', startMusic);
     });
 
@@ -92,7 +86,10 @@
     function createCard(person) {
       const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
       const card = document.createElement("div");
-      card.className = "card";
+      
+      // *** สำคัญมาก: ต้องมี class "card" เพื่อให้ CSS คุมขนาดรูป ***
+      card.className = "card"; 
+      
       card.innerHTML = `
         <img src="${imgSrc}" class="profile" alt="profile">
         <h3>${person.name}</h3>
@@ -106,7 +103,7 @@
       const container = document.getElementById("pagination-controls");
       container.innerHTML = "";
 
-      if (totalPages <= 1) return; // ถ้ามีหน้าเดียวไม่ต้องโชว์ปุ่ม
+      if (totalPages <= 1) return; 
 
       for (let i = 1; i <= totalPages; i++) {
         const btn = document.createElement("button");
@@ -115,6 +112,7 @@
         btn.onclick = () => {
           currentPage = i;
           displayMembers(allMembers);
+          // เลื่อนหน้าจอขึ้นไปที่ส่วน Member เมื่อเปลี่ยนหน้า
           document.getElementById('memberSection').scrollIntoView({ behavior: 'smooth' });
         };
         container.appendChild(btn);
@@ -125,7 +123,6 @@
       const memberList = document.getElementById("memberlist");
       memberList.innerHTML = "";
 
-      // คำนวณ Index สำหรับหน้าปัจจุบัน
       const start = (currentPage - 1) * itemsPerPage;
       const end = start + itemsPerPage;
       const paginatedItems = membersArray.slice(start, end);
@@ -134,6 +131,7 @@
       renderPagination(membersArray.length);
     }
 
+    // โหลดข้อมูลจากไฟล์ JSON
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
@@ -150,22 +148,23 @@
         }
         leaders.forEach(p => leaderList.appendChild(createCard(p))); 
 
-        // แสดงผลหน้าแรก
+        // แสดงผล Member หน้าแรก
         displayMembers(allMembers);
 
-        // --- 🔍 4. ระบบค้นหา (ปรับปรุงให้รองรับ Pagination) ---
+        // --- 🔍 4. ระบบค้นหา ---
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
           
           if (val === "") {
-            displayMembers(allMembers); // ถ้าว่างให้กลับมาแบ่งหน้าปกติ
+            currentPage = 1;
+            displayMembers(allMembers);
           } else {
             const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
             const memberList = document.getElementById("memberlist");
             memberList.innerHTML = "";
             filtered.forEach(p => memberList.appendChild(createCard(p)));
-            document.getElementById("pagination-controls").innerHTML = ""; // ซ่อนปุ่มเวลาค้นหา
+            document.getElementById("pagination-controls").innerHTML = ""; 
           }
         });
       })
