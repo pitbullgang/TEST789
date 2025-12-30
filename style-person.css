@@ -27,11 +27,11 @@ body {
     filter: brightness(25%);
 }
 
-/* --- 3. Layout Positioning --- */
+/* --- 3. Layout Positioning (จุดที่แก้ไข) --- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 100px 20px 40px; /* เว้นที่ให้ Header */
+    padding: 20px 20px 40px; /* ลดระยะขอบบนลงเพื่อให้เนื้อหาลอยขึ้นมา */
     text-align: center;
 }
 
@@ -39,13 +39,15 @@ header {
     font-size: 3rem;
     color: var(--accent);
     letter-spacing: 5px;
-    margin-bottom: 30px;
+    margin-top: 60px; /* เว้นระยะจากขอบบนเล็กน้อยเพื่อให้ดูไม่ติดเกินไป */
+    margin-bottom: 20px;
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    text-transform: uppercase;
 }
 
 /* จัดระเบียบช่อง Search */
 .search-container {
-    margin: 20px auto 50px;
+    margin: 10px auto 40px; 
     max-width: 400px;
     position: relative;
 }
@@ -71,7 +73,7 @@ header {
 h2 {
     font-size: 1.5rem;
     color: var(--leader-color);
-    margin: 40px 0 20px;
+    margin: 30px 0 20px;
     display: inline-block;
     border-bottom: 2px solid var(--accent);
     padding: 0 30px 5px;
@@ -81,7 +83,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center; /* จัดการ์ดให้อยู่กลางหน้าจอ */
+    justify-content: center;
 }
 
 .card {
@@ -114,7 +116,7 @@ h2 {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin: 50px 0;
+    margin: 40px 0;
 }
 
 .page-btn {
@@ -135,17 +137,20 @@ h2 {
 /* ปุ่ม Back Home */
 .back-nav {
     position: fixed;
-    top: 25px; right: 25px;
+    top: 20px; 
+    right: 20px;
     z-index: 100;
 }
 
 .back-btn {
-    background: var(--glass);
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid var(--glass-border);
     color: #fff;
     padding: 8px 15px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    transition: 0.3s;
 }
 
 .back-btn:hover { background: #fff; color: #000; }
