@@ -16,7 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 2. Background Control --- */
+/* --- 2. Background & Video --- */
 #bg-video {
     position: fixed;
     top: 50%; left: 50%;
@@ -27,11 +27,18 @@ body {
     filter: brightness(25%);
 }
 
-/* --- 3. Layout Positioning (จุดที่แก้ไข) --- */
+#particleCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- 3. Layout Positioning --- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 20px 40px; /* ลดระยะขอบบนลงเพื่อให้เนื้อหาลอยขึ้นมา */
+    padding: 20px 20px 40px; /* ลด Padding เพื่อให้เนื้อหาอยู่บนสุด */
     text-align: center;
 }
 
@@ -39,15 +46,13 @@ header {
     font-size: 3rem;
     color: var(--accent);
     letter-spacing: 5px;
-    margin-top: 60px; /* เว้นระยะจากขอบบนเล็กน้อยเพื่อให้ดูไม่ติดเกินไป */
+    margin-top: 60px; /* เว้นที่ให้ปุ่ม Back เล็กน้อย */
     margin-bottom: 20px;
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-    text-transform: uppercase;
 }
 
-/* จัดระเบียบช่อง Search */
 .search-container {
-    margin: 10px auto 40px; 
+    margin: 10px auto 40px;
     max-width: 400px;
     position: relative;
 }
@@ -94,6 +99,7 @@ h2 {
     border-radius: 12px;
     backdrop-filter: blur(8px);
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
 }
 
 .card:hover {
@@ -111,7 +117,21 @@ h2 {
     object-fit: cover;
 }
 
-/* --- 5. Pagination Control --- */
+.fb-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid var(--glass-border);
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.fb-link:hover { background: #fff; color: #000; }
+
+/* --- 5. Pagination Style (ระบบหน้า 1 2 3) --- */
 .pagination-container {
     display: flex;
     justify-content: center;
@@ -137,8 +157,7 @@ h2 {
 /* ปุ่ม Back Home */
 .back-nav {
     position: fixed;
-    top: 20px; 
-    right: 20px;
+    top: 20px; right: 20px;
     z-index: 100;
 }
 
@@ -150,7 +169,4 @@ h2 {
     cursor: pointer;
     font-size: 0.75rem;
     border-radius: 4px;
-    transition: 0.3s;
 }
-
-.back-btn:hover { background: #fff; color: #000; }
