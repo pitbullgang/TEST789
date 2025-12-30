@@ -9,8 +9,14 @@
   <link rel="stylesheet" href="style-person.css">
 </head>
 <body>
-  <audio id="list-music" loop><source src="bg.mp3" type="audio/mpeg"></audio>
-  <video autoplay muted loop playsinline id="bg-video"><source src="pain.mp4" type="video/mp4"></video>
+  <audio id="list-music" loop>
+    <source src="bg.mp3" type="audio/mpeg">
+  </audio>
+
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="pain.mp4" type="video/mp4">
+  </video>
+
   <canvas id="particleCanvas"></canvas>
 
   <nav class="back-nav">
@@ -45,9 +51,19 @@
 
   <script src="script.js"></script> 
   <script>
+    // --- 🎵 1. ระบบจัดการเพลง (ปลดล็อกเมื่อคลิก) ---
+    const music = document.getElementById("list-music");
+    const unlockAudio = () => {
+        music.play().then(() => {
+            document.removeEventListener('click', unlockAudio);
+        }).catch(err => console.log("Waiting for user interaction..."));
+    };
+    document.addEventListener('click', unlockAudio);
+
+    // --- 📑 2. ระบบจัดการรายชื่อและแบ่งหน้า ---
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
     let allMembers = []; 
-    const itemsPerPage = 8; // แสดง 8 คนต่อหน้า
+    const itemsPerPage = 8; 
     let currentPage = 1;
 
     function createCard(person) {
