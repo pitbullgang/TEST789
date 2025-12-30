@@ -1,24 +1,22 @@
-/* --- 1. การตั้งค่าหลัก (Global Settings) --- */
+/* --- 1. Global Setup --- */
 :root {
     --text-color: #ffffff;
     --accent: #ff0000;
     --leader-color: #ff4d4d;
     --font: 'Kanit', sans-serif;
-    --glass: rgba(0, 0, 0, 0.6); /* ปรับให้เข้มขึ้นเพื่อให้อ่านง่าย */
+    --glass: rgba(0, 0, 0, 0.7);
     --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
     font-family: var(--font);
-    color: var(--text-color);
     background-color: #000;
+    color: var(--text-color);
+    margin: 0;
     overflow-x: hidden;
-    line-height: 1.6;
 }
 
-/* วิดีโอพื้นหลัง */
+/* --- 2. Background Control --- */
 #bg-video {
     position: fixed;
     top: 50%; left: 50%;
@@ -26,137 +24,128 @@ body {
     transform: translate(-50%, -50%);
     z-index: -2;
     object-fit: cover;
-    filter: brightness(30%);
+    filter: brightness(25%);
 }
 
-/* --- 2. การจัดเลย์เอาท์ (Layout) --- */
+/* --- 3. Layout Positioning --- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-    text-align: center; /* จัดทุกอย่างให้อยู่ตรงกลาง */
+    padding: 100px 20px 40px; /* เว้นที่ให้ Header */
+    text-align: center;
 }
 
 header {
-    font-size: 3.5rem;
+    font-size: 3rem;
     color: var(--accent);
-    text-transform: uppercase;
     letter-spacing: 5px;
-    margin: 50px 0;
-    text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-}
-
-section {
-    margin-bottom: 60px;
-}
-
-h2 {
-    font-size: 1.8rem;
-    color: var(--leader-color);
     margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+/* จัดระเบียบช่อง Search */
+.search-container {
+    margin: 20px auto 50px;
+    max-width: 400px;
+    position: relative;
+}
+
+.search-box {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    border-radius: 20px;
+    outline: none;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+}
+
+/* --- 4. Section & Cards --- */
+h2 {
+    font-size: 1.5rem;
+    color: var(--leader-color);
+    margin: 40px 0 20px;
     display: inline-block;
     border-bottom: 2px solid var(--accent);
-    padding: 0 20px 5px;
+    padding: 0 30px 5px;
 }
 
-/* --- 3. การจัดการรายการและการ์ด (List & Cards) --- */
 .list {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center; /* จัดการ์ดให้อยู่ตรงกลางหน้าจอ */
-    padding: 20px 0;
+    gap: 20px;
+    justify-content: center; /* จัดการ์ดให้อยู่กลางหน้าจอ */
 }
 
 .card {
     background: var(--glass);
     border: 1px solid var(--glass-border);
-    padding: 30px 20px;
-    width: 240px;
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-    transition: 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 25px;
+    width: 220px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
     transform: translateY(-10px);
     border-color: var(--accent);
-    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+    box-shadow: 0 15px 30px rgba(255, 0, 0, 0.25);
 }
 
 .card .profile {
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
     border: 2px solid var(--accent);
-}
-
-.card h3 {
-    font-size: 1.1rem;
     margin-bottom: 15px;
-    font-weight: 500;
+    object-fit: cover;
 }
 
-/* --- 4. ปุ่มต่างๆ --- */
-.fb-link {
-    display: inline-block;
-    color: #fff;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.5);
-    padding: 6px 20px;
-    font-size: 0.75rem;
-    border-radius: 4px;
-    transition: 0.3s;
-}
-
-.fb-link:hover {
-    background: #fff;
-    color: #000;
-}
-
-.back-nav {
-    position: absolute;
-    top: 20px; right: 20px;
-}
-
-.back-btn {
-    background: transparent;
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-family: var(--font);
-    transition: 0.3s;
-}
-
-.back-btn:hover {
-    background: #fff;
-    color: #000;
-}
-
-/* ระบบ Pagination 1 2 3 */
+/* --- 5. Pagination Control --- */
 .pagination-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 40px;
+    gap: 15px;
+    margin: 50px 0;
 }
 
 .page-btn {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
+    background: rgba(255,255,255,0.05);
     border: 1px solid var(--glass-border);
-    padding: 8px 16px;
+    color: #fff;
+    padding: 8px 18px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 .page-btn.active {
     background: var(--accent);
-    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
 }
+
+/* ปุ่ม Back Home */
+.back-nav {
+    position: fixed;
+    top: 25px; right: 25px;
+    z-index: 100;
+}
+
+.back-btn {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.back-btn:hover { background: #fff; color: #000; }
