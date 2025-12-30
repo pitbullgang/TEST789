@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const settings = await response.json();
       const theme = settings.theme;
 
+      // ตั้งค่า CSS Variables จาก JSON
       const themeProps = {
         "--gradient-start": theme.gradientStart,
         "--gradient-end": theme.gradientEnd,
@@ -20,14 +21,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (v) document.documentElement.style.setProperty(k, v);
       });
 
-      // ระบบเพลง
-      const music = document.getElementById("bg-music");
-      if (music && settings.backgroundMusic) {
-        music.src = settings.backgroundMusic;
-        music.volume = 0.4;
+      // ระบบควบคุมเพลงด้วย Spacebar
+      const music = document.getElementById("list-music") || document.getElementById("bg-music");
+      if (music) {
         document.addEventListener("keydown", e => {
           if (e.code === "Space") {
-            e.preventDefault(); // กันหน้าจอเลื่อนเวลาเล่นเพลง
+            e.preventDefault(); // กันหน้าจอเลื่อน
             music.paused ? music.play() : music.pause();
           }
         });
@@ -40,10 +39,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ⏳ 2. Loading Screen
   const loading = document.getElementById("loading-screen");
   if (loading) {
-    setTimeout(() => loading.classList.add("hidden"), 1500);
+    setTimeout(() => loading.classList.add("hidden"), 1000);
   }
 
-  // 💀 3. SKULL EFFECT (รันเฉพาะหน้าที่มี Canvas)
+  // 💀 3. SKULL EFFECT
   const canvas = document.getElementById("particleCanvas");
   if (canvas) {
     const ctx = canvas.getContext("2d");
@@ -91,53 +90,5 @@ document.addEventListener("DOMContentLoaded", async () => {
       animationFrame = requestAnimationFrame(drawSkulls);
     }
     drawSkulls();
-  }
-
-  // 📑 4. MEMBER PAGINATION (ปรับให้รองรับข้อมูลที่โหลดมาช้า)
-  if (window.location.pathname.includes("person.html")) {
-    // ใช้ MutationObserver เพื่อรอให้ Card ถูกสร้างเสร็จก่อนรัน Pagination
-    const memberGrid = document.querySelector('#memberlist');
-    if (memberGrid) {
-      const initPagination = () => {
-        const members = Array.from(memberGrid.querySelectorAll('.card'));
-        const itemsPerPage = 8;
-        if (members.length === 0) return;
-
-        const totalPages = Math.ceil(members.length / itemsPerPage);
-        let currentPage = 1;
-
-        const showPage = (page) => {
-          currentPage = page;
-          const start = (page - 1) * itemsPerPage;
-          const end = start + itemsPerPage;
-          members.forEach((m, i) => m.style.display = (i >= start && i < end) ? 'block' : 'none');
-          updateButtons();
-        };
-
-        const updateButtons = () => {
-          let controls = document.getElementById('pagination-controls') || document.createElement('div');
-          controls.id = 'pagination-controls';
-          controls.className = 'pagination-container';
-          controls.innerHTML = '';
-          
-          for (let i = 1; i <= totalPages; i++) {
-            const btn = document.createElement('button');
-            btn.innerText = i;
-            btn.className = (i === currentPage) ? 'page-btn active' : 'page-btn';
-            btn.onclick = () => {
-              showPage(i);
-              document.getElementById('memberSection')?.scrollIntoView({ behavior: 'smooth' });
-            };
-            controls.appendChild(btn);
-          }
-          if (!document.getElementById('pagination-controls')) memberGrid.after(controls);
-        };
-
-        showPage(1);
-      };
-
-      // ถ้ารายชื่อสมาชิกโหลดมาแบบ fetch ให้ใช้เวลาเล็กน้อยก่อนรัน
-      setTimeout(initPagination, 500); 
-    }
   }
 });
