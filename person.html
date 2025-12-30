@@ -7,7 +7,6 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  
   <link rel="stylesheet" href="style-person.css">
 </head>
 <body>
@@ -25,14 +24,14 @@
     <button class="back-btn" onclick="window.location.href='index.html'">BACK TO HOME</button>
   </nav>
 
-  <header>GANG LIST</header>
-
-  <div class="search-container">
-    <i class='bx bx-search'></i>
-    <input type="text" id="searchInput" class="search-box" placeholder="SEARCH MEMBERS...">
-  </div>
-
   <div class="container">
+    <header>GANG LIST</header>
+
+    <div class="search-container">
+      <i class='bx bx-search'></i>
+      <input type="text" id="searchInput" class="search-box" placeholder="SEARCH MEMBERS...">
+    </div>
+
     <section id="founderSection" style="display: none;">
       <h2>Founder</h2>
       <div class="list" id="founderlist"></div>
@@ -48,9 +47,9 @@
       <div id="memberlist" class="list"></div>
       <div id="pagination-controls" class="pagination-container"></div>
     </section>
-  </div>
 
-  <footer>© DESIGNED BY KEN.</footer>
+    <footer>© DESIGNED BY KEN.</footer>
+  </div>
 
   <script src="script.js"></script> 
 
@@ -82,13 +81,11 @@
       document.addEventListener('click', startMusic);
     });
 
-    // --- 👥 3. ระบบดึงข้อมูลและ Pagination ---
+    // --- 👥 3. ระบบสร้าง Card และ Pagination ---
     function createCard(person) {
       const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
       const card = document.createElement("div");
-      
-      // *** สำคัญมาก: ต้องมี class "card" เพื่อให้ CSS คุมขนาดรูป ***
-      card.className = "card"; 
+      card.className = "card"; // สำคัญ: เพื่อให้ CSS คุมขนาดรูป
       
       card.innerHTML = `
         <img src="${imgSrc}" class="profile" alt="profile">
@@ -112,7 +109,6 @@
         btn.onclick = () => {
           currentPage = i;
           displayMembers(allMembers);
-          // เลื่อนหน้าจอขึ้นไปที่ส่วน Member เมื่อเปลี่ยนหน้า
           document.getElementById('memberSection').scrollIntoView({ behavior: 'smooth' });
         };
         container.appendChild(btn);
@@ -122,16 +118,14 @@
     function displayMembers(membersArray) {
       const memberList = document.getElementById("memberlist");
       memberList.innerHTML = "";
-
       const start = (currentPage - 1) * itemsPerPage;
       const end = start + itemsPerPage;
       const paginatedItems = membersArray.slice(start, end);
-
       paginatedItems.forEach(p => memberList.appendChild(createCard(p)));
       renderPagination(membersArray.length);
     }
 
-    // โหลดข้อมูลจากไฟล์ JSON
+    // --- 📡 4. โหลดข้อมูล JSON ---
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
@@ -147,15 +141,12 @@
             founders.forEach(p => founderList.appendChild(createCard(p))); 
         }
         leaders.forEach(p => leaderList.appendChild(createCard(p))); 
-
-        // แสดงผล Member หน้าแรก
         displayMembers(allMembers);
 
-        // --- 🔍 4. ระบบค้นหา ---
+        // --- 🔍 5. ระบบค้นหา ---
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
-          
           if (val === "") {
             currentPage = 1;
             displayMembers(allMembers);
